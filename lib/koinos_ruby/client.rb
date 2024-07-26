@@ -3,7 +3,7 @@ require "json"
 
 module KoinosRuby
   class Client
-    API_BASE_URL = "https://api.koinos.io"
+    API_BASE_URL = "https://api.koinos.io/v1/"
 
     def initialize(api_base_url = API_BASE_URL)
       @connection = Faraday.new(url: api_base_url) do |conn|
@@ -15,63 +15,63 @@ module KoinosRuby
 
     # Accounts Endpoints
     def account_balance(account_id)
-      get("/accounts/#{account_id}/balance")
+      get("accounts/#{account_id}/balance")
     end
 
     def account_history(account_id, limit = 10, start = nil)
       params = { limit: limit }
       params[:start] = start if start
-      get("/accounts/#{account_id}/history", params)
+      get("accounts/#{account_id}/history", params)
     end
 
     def account_mana(account_id)
-      get("/accounts/#{account_id}/mana")
+      get("accounts/#{account_id}/mana")
     end
 
     def account_next_nonce(account_id)
-      get("/accounts/#{account_id}/next_nonce")
+      get("accounts/#{account_id}/next_nonce")
     end
 
     def account_nonce(account_id)
-      get("/accounts/#{account_id}/nonce")
+      get("accounts/#{account_id}/nonce")
     end
 
 
     # Blocks Endpoints
     def block_by_id(block_id)
-      get("/blocks/#{block_id}")
+      get("blocks/#{block_id}")
     end
 
 
     # Chain Endpoints
     def fork_heads
-      get("/chain/fork_heads")
+      get("chain/fork_heads")
     end
 
     def head_info
-      get("/chain/head_info")
+      get("chain/head_info")
     end
 
     def chain_id
-      get("/chain/id")
+      get("chain/id")
     end
 
     def chain_resource_limits
-      get("/chain/resource_limits")
+      get("chain/resource_limits")
     end
 
 
     # Contract Endpoints
     def contract_read(contract_id, method)
-      get("/contract/#{contract_id}/#{method}")
+      get("contract/#{contract_id}/#{method}")
     end
 
     def contract_read_with_args(contract_id, method, args)
-      post("/contract/#{contract_id}/#{method}", args)
+      post("contract/#{contract_id}/#{method}", args)
     end
 
     def contract_abi(contract_id)
-      get("/contract/#{contract_id}/abi")
+      get("contract/#{contract_id}/abi")
     end
 
 
@@ -84,15 +84,15 @@ module KoinosRuby
 
     # Transactions Endpoints
     def transaction_by_id(transaction_id)
-      get("/transaction/#{transaction_id}")
+      get("transaction/#{transaction_id}")
     end
 
     def transaction_prepare
-      post("/transactions/prepare", {})
+      post("transactions/prepare", {})
     end
 
     def transaction_submit(transaction)
-      post("/transactions", transaction)
+      post("transactions", transaction)
     end
 
     private
