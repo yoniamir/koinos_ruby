@@ -1,3 +1,4 @@
+require "pry"
 require "faraday"
 require "json"
 
@@ -100,12 +101,14 @@ module KoinosRuby
     def get(path, params = {})
       full_url = URI.join(API_BASE_URL, path).to_s
       puts "Full URL: #{full_url}"
-      response = @connection.get(path, params)
+      response = @connection.get(full_url, params)
       handle_response(response)
     end
 
     def post(path, body)
-      response = @connection.post(path, body.to_json)
+      full_url = URI.join(API_BASE_URL, path).to_s
+      puts "Full URL: #{full_url}"
+      response = @connection.post(full_url, body.to_json)
       handle_response(response)
     end
 

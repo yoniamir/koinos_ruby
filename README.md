@@ -21,65 +21,41 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
-require 'koinos_api_client'
+require 'koinos_ruby'
 
-client = KoinosApiClient::Client.new
-
-# Block Endpoints
-block = client.get_block_by_id("block_id")
-blocks = client.get_blocks_by_height(100, 110)
-blocks_by_producer = client.get_blocks_by_producer("producer_id")
-
-# Transaction Endpoints
-transaction = client.get_transaction_by_id("transaction_id")
-transactions = client.get_transactions_by_block("block_id")
-transactions_by_account = client.get_transactions_by_account("account_id")
+client = KoinosRuby::Client.new
 
 # Account Endpoints
-balance = client.get_account_balance("account_id")
-nonce = client.get_account_nonce("account_id")
-resources = client.get_account_resources("account_id")
-history = client.get_account_history("account_id")
+balance = client.account_balance("account_id")
+history = client.account_history("account_id", 10)
+mana = client.account_mana("account_id")
+next_nonce = client.account_next_nonce("account_id")
+nonce = client.account_nonce("account_id")
 
-# Event Endpoints
-event = client.get_event_by_id("event_id")
-events_by_block = client.get_events_by_block("block_id")
-events_by_transaction = client.get_events_by_transaction("transaction_id")
-events_by_account = client.get_events_by_account("account_id")
+# Block Endpoints
+block = client.block_by_id("block_id")
 
-# Token Endpoints
-token_info = client.get_token_info("token_id")
-token_balance = client.get_token_balance("account_id", "token_id")
-token_transfers = client.get_token_transfers("account_id", "token_id")
-
-# Governance Endpoints
-governance_parameters = client.get_governance_parameters
-proposals = client.get_governance_proposals("active")
-votes = client.get_governance_votes("proposal_id")
-
-# Utility Endpoints
-status = client.get_status
-chain_id = client.get_chain_id
-
-# Mana Endpoints
-account_mana = client.get_account_mana("account_id")
-system_mana = client.get_system_mana
+# Chain Endpoints
+fork_heads = client.fork_heads
+head_info = client.head_info
+chain_id = client.chain_id
+resource_limits = client.chain_resource_limits
 
 # Contract Endpoints
-contract_metadata = client.get_contract_metadata("contract_id")
-contract_state = client.get_contract_state("contract_id", "key")
+contract_data = client.contract_read("contract_id", "method")
+contract_data_with_args = client.contract_read_with_args("contract_id", "method", { arg1: "value1" })
+contract_abi = client.contract_abi("contract_id")
 
-# POST Endpoints
-client.submit_transaction(transaction)
-client.submit_contract_call(contract_call)
-client.submit_proposal(proposal)
-client.submit_vote(vote)
+# Transaction Endpoints
+transaction = client.transaction_by_id("transaction_id")
+prepared_transaction = client.transaction_prepare
+submitted_transaction = client.transaction_submit(transaction_data)
 ```
 
 ### Additional Notes
-1. **Error Handling**: Add comprehensive error handling, especially for critical operations like transaction submissions.
-2. **Security**: Ensure secure handling of sensitive operations and data, particularly if using private keys or sensitive API access.
-3. **Testing**: Implement thorough testing, including unit tests and integration tests, for all endpoints and functionalities.
-4. **Documentation**: Expand the README and possibly create separate documentation files for detailed usage instructions and examples. 
+Error Handling: Comprehensive error handling is essential, especially for critical operations like transaction submissions.
+Security: Ensure secure handling of sensitive operations and data, particularly if using private keys or sensitive API access.
+Testing: Implement thorough testing, including unit tests and integration tests, for all endpoints and functionalities.
+Documentation: Expand the README and possibly create separate documentation files for detailed usage instructions and examples.
 
-This implementation covers all API endpoints mentioned in the Koinos REST API documentation, including the POST requests necessary for interacting with the blockchain. Make sure to adapt and extend the gem as needed for your specific use case.
+This implementation covers the major API endpoints available in the Koinos REST API, including necessary POST requests for interacting with the blockchain. Make sure to adapt and extend the gem as needed for your specific use case.
